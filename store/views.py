@@ -21,13 +21,12 @@ def view_cached_books(request):
     if 'product' in cache:
         # get results from cache
         products = cache.get('product')
-        print(DEFAULT_TIMEOUT)
-        print(products)
+        # print(products)
         return Response(products, status=status.HTTP_201_CREATED)
     else:
         products = Product.objects.all()
         results = [product.to_json() for product in products]
+        # print(results)
         # store data in cache
-        print(CACHE_TTL)
         cache.set('product', results, timeout=CACHE_TTL)
         return Response(results, status=status.HTTP_201_CREATED)
